@@ -1,0 +1,19 @@
+# Place in /etc/systemd/system/
+[Unit]
+Description=Immich Backup Script
+# Wants=network-online.target
+# After=network-online.target
+
+[Service]
+Type=oneshot
+User=tyler-hill
+ExecStart=/home/tyler-hill/immich-app/backup_script.sh
+StandardOutput=journal
+StandardError=journal
+TimeoutStartSec=3600
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+[Install]
+WantedBy=multi-user.target

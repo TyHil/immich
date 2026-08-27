@@ -1,0 +1,11 @@
+# Place in /etc/systemd/system/
+[Unit]
+Description=Run Immich Backup Script daily at midnight
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+Unit=immich-backup.service
+
+[Install]
+WantedBy=timers.target
+
