@@ -7,8 +7,10 @@ Immich setup and backup instructions
 1. Clone the repo with `git clone https://github.com/TyHil/immich.git ~/immich-app` and `cd ~/immich-app`.
 
 2. Follow instructions at https://docs.immich.app/install/docker-compose.
-  - Reconcile `docker-compose.yml` from Immich and the repo to add the Cloudflared container.
-  - Reconcile `.env` from Immich and `.env.example` from the repo.
+
+    a. Reconcile `docker-compose.yml` from Immich and the repo to add the Cloudflared container
+
+    b. Reconcile `.env` from Immich and `.env.example` from the repo.
 
 3. Follow instructions at https://github.com/immich-app/immich/discussions/8299 to set up Cloudflared and update the `.env` file.
 
