@@ -14,7 +14,7 @@ Immich setup and backup instructions
 
 3. Follow instructions at https://github.com/immich-app/immich/discussions/8299 to set up Cloudflared and update the `.env` file.
 
-3. Run `docker compose up -d`.
+4. Run `docker compose up -d`.
 
 ## Backup
 
