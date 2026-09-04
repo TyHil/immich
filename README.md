@@ -24,7 +24,7 @@ Immich setup and backup instructions
 
 3. Run `cp immich-backup.example.service /etc/systemd/system/immich-backup.service` and `cp immich-backup.example.timer /etc/systemd/system/immich-backup.timer` and edit the new file to have the correct `User`, `WorkingDirectory`, and `ExecStart` for you. Then run `sudo systemctl daemon-reload`, `sudo systemctl enable immich-backup.timer`, and `sudo systemctl start immich-backup.timer`.
 
-4. Add the contents of `example.bash_aliases` to your `~/.bash_aliases` or run `cp example.bash_aliases ~/.bash_aliases`.
+4. Update paths and add the contents of `example.bash_aliases` to your `~/.bash_aliases` or run `cp example.bash_aliases ~/.bash_aliases`.
 
-5. Finally run `source ~/.bash_aliases` and `immich-backup start-now` to backup now or `immich-backup` to check the next backup time.
+5. Finally run `source ~/.bash_aliases` and `immich-backup backup` to backup now or `immich-backup status` to check the next backup time.
 
