@@ -76,7 +76,14 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     restart: always
-    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TOKEN}
+    command: tunnel --metrics 0.0.0.0:2000 --no-autoupdate run --token ${CLOUDFLARED_TOKEN}
+    healthcheck:
+      test: ["CMD", "cloudflared", "tunnel", "ready", "--url", "http://localhost:2000/ready"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 5s
 
 volumes:
   model-cache:
+

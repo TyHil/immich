@@ -20,7 +20,7 @@ Immich setup and backup instructions
 
 1. Update paths in and run `./backup_setup.sh`.
 
-2. Update paths in and run `./backup_script.sh`.
+2. Run `cp .env.backup.example .env.backup` and set your Uptime Kuma push URL (see https://github.com/TyHil/uptime-kuma). Then, update paths in and run `./backup_script.sh`.
 
 3. Run `cp immich-backup.example.service /etc/systemd/system/immich-backup.service` and `cp immich-backup.example.timer /etc/systemd/system/immich-backup.timer` and edit the new file to have the correct `User`, `WorkingDirectory`, and `ExecStart` for you. Then run `sudo systemctl daemon-reload`, `sudo systemctl enable immich-backup.timer`, and `sudo systemctl start immich-backup.timer`.
 

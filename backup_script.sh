@@ -1,14 +1,21 @@
-#!/bin/sh
-set -eu
+#!/bin/bash
+set -e
 
 # Paths
-UPLOAD_LOCATION="/home/tyler-hill/immich-app/library"
+APP_PATH="/home/tyler-hill/immich-app"
+UPLOAD_LOCATION="$APP_PATH/library"
 DRIVE_PATH="/run/media/tyler-hill/Backup"
 BACKUP_PATH="$DRIVE_PATH/immich-backup"
-ENV_FILE="/home/tyler-hill/immich-app/.env"
+IMMICH_ENV_FILE="$APP_PATH/.env"
+ENV_FILE="$APP_PATH/.env.backup"
+
+# Load environment variables if file exists
+if [ -f "$ENV_FILE" ]; then
+  source "$ENV_FILE"
+fi
 
 # Backup Immich database
-docker exec -t immich_postgres pg_dumpall --clean --if-exists --username=postgres > "$UPLOAD_LOCATION"/database-backup/immich-database.sql
+docker exec immich_postgres pg_dumpall --clean --if-exists --username=postgres > "$UPLOAD_LOCATION"/database-backup/immich-database.sql
 
 # Local
 
@@ -30,4 +37,9 @@ borg prune --keep-weekly=4 --keep-monthly=3 "$BACKUP_PATH"/immich-borg
 borg compact "$BACKUP_PATH"/immich-borg
 
 ### Copy environment variables
-cp "$ENV_FILE" "$BACKUP_PATH"
+cp "$IMMICH_ENV_FILE" "$BACKUP_PATH"
+
+# Send heartbeat
+if [ -n "$KUMA_PUSH_URL" ]; then
+  curl -fsS "$KUMA_PUSH_URL?status=up&msg=OK"
+fi
