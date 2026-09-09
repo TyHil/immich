@@ -20,9 +20,15 @@ Immich setup and backup instructions
 
 1. Update paths in and run `./backup_setup.sh`.
 
-2. Run `cp .env.backup.example .env.backup` and set your Uptime Kuma push URL (see https://github.com/TyHil/uptime-kuma). Then, update paths in and run `./backup_script.sh`.
+2. Setup `./backup_script.sh`
 
-3. Run `cp immich-backup.example.service /etc/systemd/system/immich-backup.service` and `cp immich-backup.example.timer /etc/systemd/system/immich-backup.timer` and edit the new file to have the correct `User`, `WorkingDirectory`, and `ExecStart` for you. Then run `sudo systemctl daemon-reload`, `sudo systemctl enable immich-backup.timer`, and `sudo systemctl start immich-backup.timer`.
+    a. Run `cp .env.backup.example .env.backup` and set your Uptime Kuma push URL (see https://github.com/TyHil/uptime-kuma).
+    
+    b. Run `sudo mkdir -p /mnt/Backup` to create a mount directory. Then Run `lsblk -f`, identify your drives UUID, and fill it in to and run `echo "UUID=<UUID>  /mnt/Backup  ext4  defaults,nofail,x-systemd.automount  0  2" | sudo tee -a /etc/fstab` to create a fstab entry. Finally, run `sudo systemctl daemon-reload`, `sudo umount /mnt/Backup`, and `sudo systemctl start mnt-Backup.automount`. You should see the contents of your drive, automatically mounted, with `ls /mnt/Backup`.
+    
+    c. Update paths in and run `./backup_script.sh`.
+
+3. Run `sudo cp immich-backup.example.service /etc/systemd/system/immich-backup.service` and `sudo cp immich-backup.example.timer /etc/systemd/system/immich-backup.timer` and edit the new file to have the correct `User`, `WorkingDirectory`, and `ExecStart` for you. Then run `sudo systemctl daemon-reload`, `sudo systemctl enable immich-backup.timer`, and `sudo systemctl start immich-backup.timer`.
 
 4. Update paths and add the contents of `example.bash_aliases` to your `~/.bash_aliases` or run `cp example.bash_aliases ~/.bash_aliases`.
 

@@ -3,7 +3,8 @@
 Description=Run Immich Backup Script daily at midnight
 
 [Timer]
-OnCalendar=*-*-* 02:00:00
+# Immich defaults to running nightly tasks at midnight, a database dump at 2am, and integrity checks at 3am, so we run at 4am
+OnCalendar=*-*-* 04:00:00
 Unit=immich-backup.service
 
 [Install]

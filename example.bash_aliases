@@ -17,7 +17,7 @@ function immich-backup() {
 		systemctl status immich-backup.service "$@"
 	elif [ "$1" = "list" ]; then
 		shift
-		borg list /run/media/tyler-hill/Backup/immich-backup/immich-borg "$@"
+		borg list /mnt/Backup/immich-backup/immich-borg "$@"
 	else
 		systemctl status immich-backup.service "$@"
 	fi
