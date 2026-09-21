@@ -18,6 +18,9 @@ function immich-backup() {
 	elif [ "$1" = "list" ]; then
 		shift
 		borg list /mnt/Backup/immich-backup/immich-borg "$@"
+	elif [ "$1" = "list-remote" ]; then
+		shift
+		borg list tyler-hill@tyler-hill-mimi-laptop.reedfish-triceratops.ts.net:/home/tyler-hill/immich-backup/immich-borg "$@"
 	else
 		systemctl status immich-backup.service "$@"
 	fi
