@@ -26,15 +26,14 @@ Immich setup and backup instructions
 
 1. Setup `./backup_script.sh`
 
-    a. Run `cp .env.backup.example .env.backup` and set your Uptime Kuma push URL (see https://github.com/TyHil/uptime-kuma) for local and remote backups in `.env.backup`..
+    a. Run `cp .env.backup.example .env.backup` and set your Uptime Kuma push URL (see https://github.com/TyHil/uptime-kuma) for local and remote backups in `.env.backup`.
     
-    b. Run `sudo mkdir -p /mnt/Backup` to create a mount directory. Then Run `lsblk -f`, identify your drives UUID, and fill it in to and run `echo "UUID=<UUID>  /mnt/Backup  ext4  defaults,nofail,x-systemd.automount  0  2" | sudo tee -a /etc/fstab` to create a fstab entry. Finally, run `sudo systemctl daemon-reload`, `sudo umount /mnt/Backup`, and `sudo systemctl start mnt-Backup.automount`. You should see the contents of your drive, automatically mounted, with `ls /mnt/Backup`.
+    a. Run `sudo mkdir -p /mnt/Backup` to create a mount directory. Then Run `lsblk -f`, identify your drives UUID, and fill it in to and run `echo "UUID=<UUID>  /mnt/Backup  ext4  defaults,nofail,x-systemd.automount  0  2" | sudo tee -a /etc/fstab` to create a fstab entry. Finally, run `sudo systemctl daemon-reload`, `sudo umount /mnt/Backup`, and `sudo systemctl start mnt-Backup.automount`. You should see the contents of your drive, automatically mounted, with `ls /mnt/Backup`.
     
-    c. Update paths in `./backup_script.sh`.
+    a. Update paths in `./backup_script.sh`.
 
 1. Run `sudo cp immich-backup.example.service /etc/systemd/system/immich-backup.service` and `sudo cp immich-backup.example.timer /etc/systemd/system/immich-backup.timer` and edit the new file to have the correct `User`, `WorkingDirectory`, and `ExecStart` for you. Then run `sudo systemctl daemon-reload`, `sudo systemctl enable immich-backup.timer`, and `sudo systemctl start immich-backup.timer`.
 
 1. Update paths and add the contents of `example.bash_aliases` to your `~/.bash_aliases` or run `cp example.bash_aliases ~/.bash_aliases`. Similarly, you may do the same with `example.remote.bash_aliases` on your remote server.
 
 1. Finally run `source ~/.bash_aliases`, check the next backup time with `immich-backup status`, and backup now with `immich-backup backup`. This will take a long time.
-

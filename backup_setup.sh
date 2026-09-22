@@ -29,4 +29,3 @@ borg init --encryption=none "$BACKUP_PATH/immich-borg"
 
 # Remote backup
 borg init --encryption=none "$REMOTE_HOST:$REMOTE_BACKUP_PATH/immich-borg"
-

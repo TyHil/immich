@@ -58,7 +58,7 @@ cp "$IMMICH_ENV_FILE" "$BACKUP_PATH"
 
 ## Send heartbeat
 if [ -n "$KUMA_PUSH_URL_LOCAL" ]; then
-  curl -fsS "$KUMA_PUSH_URL_LOCAL?status=$(printf '%s' "${KUMA_STATUS_LOCAL:-up}" | jq -sRr @uri)&msg=$(printf '%s' "${KUMA_MSG_LOCAL:-OK}" | jq -sRr @uri)"
+  curl -fsS -m 10 --retry 3 -G "$KUMA_PUSH_URL_LOCAL" --data-urlencode "status=${KUMA_STATUS_LOCAL:-up}" --data-urlencode "msg=${KUMA_MSG_LOCAL:-OK}" > /dev/null
 fi
 
 # Remote backup
@@ -87,6 +87,5 @@ scp "$IMMICH_ENV_FILE" "$REMOTE_HOST:$REMOTE_BACKUP_PATH/"
 
 ## Send heartbeat
 if [ -n "$KUMA_PUSH_URL_REMOTE" ]; then
-  curl -fsS "$KUMA_PUSH_URL_REMOTE?status=$(printf '%s' "${KUMA_STATUS_REMOTE:-up}" | jq -sRr @uri)&msg=$(printf '%s' "${KUMA_MSG_REMOTE:-OK}" | jq -sRr @uri)"
+  curl -fsS -m 10 --retry 3 -G "$KUMA_PUSH_URL_REMOTE" --data-urlencode "status=${KUMA_STATUS_REMOTE:-up}" --data-urlencode "msg=${KUMA_MSG_REMOTE:-OK}" > /dev/null
 fi
-

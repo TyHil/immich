@@ -25,4 +25,3 @@ function immich-backup() {
 		systemctl status immich-backup.service "$@"
 	fi
 }
-

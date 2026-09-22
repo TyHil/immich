@@ -7,4 +7,3 @@ function immich-backup() {
 		borg list /home/tyler-hill/immich-backup/immich-borg "$@"
 	fi
 }
-

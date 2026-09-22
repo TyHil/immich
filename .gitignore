@@ -1,5 +1,7 @@
+# Immich
 .env
-.env.backup
 postgres
 library
 
+# Backup
+.env.backup
