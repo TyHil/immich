@@ -37,3 +37,7 @@ Immich setup and backup instructions
 1. Update paths and add the contents of `example.bash_aliases` to your `~/.bash_aliases` or run `cp example.bash_aliases ~/.bash_aliases`. Similarly, you may do the same with `example.remote.bash_aliases` on your remote server.
 
 1. Finally run `source ~/.bash_aliases`, check the next backup time with `immich-backup status`, and backup now with `immich-backup backup`. This will take a long time.
+
+### Manual Copy
+
+Update paths in and run `cd "<MANUAL_BACKUP_PATH>/immich-backup/copy"` and `borg extract "<LOCAL_BACKUP_PATH>/immich-backup/immich-borg"::<NAME>`. `NAME` is the first column in `immich-backup list`. Optionally add `--strip-components 3` to avoid extra directories.
