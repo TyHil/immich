@@ -12,7 +12,7 @@ Immich setup and backup instructions
 
     b. Reconcile `.env` from Immich and `.env.example` from the repo.
 
-1. Follow instructions at https://github.com/immich-app/immich/discussions/8299 and https://github.com/TyHil/cloudflared.git to set up Cloudflared.
+1. Follow instructions at https://github.com/immich-app/immich/discussions/8299 and https://github.com/TyHil/cloudflared to set up Cloudflared.
 
 1. Run `docker compose up -d`.
 
