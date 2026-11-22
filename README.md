@@ -24,7 +24,7 @@ Immich setup and backup instructions
 
 1. Update paths in and run `./backup_setup.sh`.
 
-1. Setup `./backup_script.sh`
+1. Setup `./backup_script.sh`.
 
     a. Run `cp .env.backup.example .env.backup` and set your Uptime Kuma push URL (see https://github.com/TyHil/uptime-kuma) for local and remote backups in `.env.backup`.
     
