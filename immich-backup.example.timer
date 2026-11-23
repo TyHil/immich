@@ -1,6 +1,6 @@
 # Place in /etc/systemd/system/
 [Unit]
-Description=Run Immich Backup Script daily at midnight
+Description=Run Immich Backup Script daily at 4am
 
 [Timer]
 # Immich defaults to running nightly tasks at midnight, a database dump at 2am, and integrity checks at 3am, so we run at 4am
