@@ -1,6 +1,6 @@
 # Place in /etc/systemd/system/
 [Unit]
-Description=Immich Backup Script
+Description=Immich Backup Service
 RequiresMountsFor=/mnt/Backup
 # Wants=network-online.target
 # After=network-online.target

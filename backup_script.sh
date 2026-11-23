@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # Paths
 ## Immich
@@ -35,10 +35,11 @@ fi
 
 ## Append to local Borg repository
 ### Borg exits with 1 for warnings so remember but don't exit if that happens
-set +e
-borg create "$BACKUP_PATH/immich-borg::{now}" "$UPLOAD_LOCATION" --exclude "$UPLOAD_LOCATION"/thumbs/ --exclude "$UPLOAD_LOCATION"/encoded-video/
-borg_status_local=$?
-set -e
+if borg create "$BACKUP_PATH/immich-borg::{now}" "$UPLOAD_LOCATION" --exclude "$UPLOAD_LOCATION"/thumbs/ --exclude "$UPLOAD_LOCATION"/encoded-video/; then
+  borg_status_local=0
+else
+  borg_status_local=$?
+fi
 if [ "$borg_status_local" -ge 2 ]; then
   echo "Local: Borg create failed with exit code $borg_status_local" >&2
   exit 1
@@ -57,17 +58,18 @@ borg compact "$BACKUP_PATH"/immich-borg
 cp "$IMMICH_ENV_FILE" "$BACKUP_PATH"
 
 ## Send heartbeat
-if [ -n "$KUMA_PUSH_URL_LOCAL" ]; then
+if [ -n "${KUMA_PUSH_URL_LOCAL:-}" ]; then
   curl -fsS -m 10 --retry 3 -G "$KUMA_PUSH_URL_LOCAL" --data-urlencode "status=${KUMA_STATUS_LOCAL:-up}" --data-urlencode "msg=${KUMA_MSG_LOCAL:-OK}" > /dev/null
 fi
 
 # Remote backup
 ## Append to local Borg repository
 ### Borg exits with 1 for warnings so remember but don't exit if that happens
-set +e
-borg create "$REMOTE_HOST:$REMOTE_BACKUP_PATH/immich-borg::{now}" "$UPLOAD_LOCATION" --exclude "$UPLOAD_LOCATION"/thumbs/ --exclude "$UPLOAD_LOCATION"/encoded-video/
-borg_status_remote=$?
-set -e
+if borg create "$REMOTE_HOST:$REMOTE_BACKUP_PATH/immich-borg::{now}" "$UPLOAD_LOCATION" --exclude "$UPLOAD_LOCATION"/thumbs/ --exclude "$UPLOAD_LOCATION"/encoded-video/; then
+  borg_status_remote=0
+else
+  borg_status_remote=$?
+fi
 if [ "$borg_status_remote" -ge 2 ]; then
   echo "Remote: Borg create failed with exit code $borg_status_remote" >&2
   exit 1
@@ -83,9 +85,9 @@ borg prune --keep-weekly=4 --keep-monthly=3 "$REMOTE_HOST:$REMOTE_BACKUP_PATH"/i
 borg compact "$REMOTE_HOST:$REMOTE_BACKUP_PATH"/immich-borg
 
 ## Copy Immich environment variables
-scp "$IMMICH_ENV_FILE" "$REMOTE_HOST:$REMOTE_BACKUP_PATH/"
+scp -q "$IMMICH_ENV_FILE" "$REMOTE_HOST:$REMOTE_BACKUP_PATH/"
 
 ## Send heartbeat
-if [ -n "$KUMA_PUSH_URL_REMOTE" ]; then
+if [ -n "${KUMA_PUSH_URL_REMOTE:-}" ]; then
   curl -fsS -m 10 --retry 3 -G "$KUMA_PUSH_URL_REMOTE" --data-urlencode "status=${KUMA_STATUS_REMOTE:-up}" --data-urlencode "msg=${KUMA_MSG_REMOTE:-OK}" > /dev/null
 fi
